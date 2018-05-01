@@ -107,7 +107,14 @@ vs.survival_stats(data, outcomes, 'Age', ["Sex == 'male'", "Age < 18"])
 vs.survival_stats(data, outcomes, 'Pclass', ["Sex == 'male'", "Age < 18"])
 
 def predictions_3(data):
-    
+    """ Model with multi features: 
+            - Predict a passenger survived if they are female.
+            - Predict a passenger survived if they are male and younger than 10. 
+            - Predict a passenger survived if they are male and his fare = 120.  
+            - Predict a passenger survived if they are male, have age between 20 and 30, his fare < 120 and from Pclass 1. 
+            - Predict a passenger survived if they are male, have age between 20 and 30, his fare < 120 and from Pclass 1. 
+
+    """
     predictions = []
     for _, passenger in data.iterrows():
         
@@ -116,10 +123,10 @@ def predictions_3(data):
         if passenger['Sex'] == "female":
             predictions.append(1)
         else:
-            if passenger['Age'] <= 10:
+            if passenger['Age'] < 10:
                predictions.append(1)  
             else:
-               if passenger['Fare'] >= 120 and passenger['Fare'] < 150:
+               if passenger['Fare'] == 120:
                   predictions.append(1)
                else:
                 if passenger['Fare'] > 120:
@@ -127,23 +134,14 @@ def predictions_3(data):
                 else:    
                   if passenger['Pclass'] > 1:
                      predictions.append(0)
-                  else:    
-                      if passenger['SibSp'] > 1:
-                          predictions.append(0)
-                      else:
-                          if passenger['Parch'] > 1:
-                              predictions.append(0)
-                          else:
-                            if passenger['Age'] > 20 and passenger['Age'] < 30:
-                              predictions.append(1)          
-                            else:
-                              if passenger['Age'] > 30 and passenger['Age'] < 40 and passenger['Fare'] < 40:
-                                  predictions.append(1)
-                              else:
-                                  if passenger['Age'] > 40 and passenger['Age'] < 50 and passenger['SibSp'] == 10:
-                                     predictions.append(1)
-                                  else:   
-                                     predictions.append(0)
+                  else:
+                     if passenger['Age'] > 20 and passenger['Age'] < 30:
+                         predictions.append(1)          
+                     else:
+                        if passenger['Age'] > 30 and passenger['Age'] < 40 and passenger['Fare'] < 40:
+                             predictions.append(1)
+                        else:  
+                             predictions.append(0)
     
     # Return our predictions
     return pd.Series(predictions)
